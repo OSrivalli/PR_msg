@@ -12,6 +12,33 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Get list of changed files
+      id: files
+      run: |
+        echo "Changed files:"
+        git diff --name-only ${{ github.event.before }} ${{ github.sha }} > changed_files.txt
+        cat changed_files.txt
+
+    # Check for specific words in the changed files
+    - name: Check for specific words
+      run: |
+        # Set the list of words to check
+        WORDS=("TODO" "FIXME" "HACK")
+          
+        # Loop through changed files and check for the words
+        for FILE in $(cat changed_files.txt); do
+          if [[ -f "$FILE" ]]; then
+            echo "Checking file: $FILE"
+            for WORD in "${WORDS[@]}"; do
+              if grep -q "$WORD" "$FILE"; then
+                echo "Found '$WORD' in $FILE"
+                exit 1  # Fail the workflow if the word is found
+              fi
+            done
+          fi
+        done
+        echo "No specific words found in the PR files."
+
     - name: Add comment to PR
       uses: peter-evans/create-or-update-comment@v2
       with:
