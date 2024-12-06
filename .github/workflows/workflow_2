@@ -1,8 +1,8 @@
-name: Workflow 2
+name: Workflow 2_new
 
 on:
   workflow_run:
-    workflows: ["Workflow 1"]
+    workflows: ["PR Notifications"]
     types:
       - completed
 
