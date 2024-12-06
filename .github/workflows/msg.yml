@@ -12,6 +12,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Add comment to PR
+      uses: peter-evans/create-or-update-comment@v2
+      with:
+        issue-number: ${{ github.event.pull_request.number }}
+        body: |
+          :warning: There seems to be an issue with your pull request. Please check the details.
+
     - name: Send PR message
       run: |
         PR_URL="https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}"
