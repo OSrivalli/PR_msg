@@ -18,6 +18,7 @@ jobs:
         issue-number: ${{ github.event.pull_request.number }}
         body: |
           :warning: There seems to be an issue with your pull request. Please check the details.
+        token: ${{ secrets.pat_token }}
 
     - name: Send PR message
       run: |
