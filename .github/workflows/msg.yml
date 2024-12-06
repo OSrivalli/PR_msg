@@ -1,0 +1,20 @@
+name: PR Notifications
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Send PR message
+      run: |
+        PR_URL="https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}"
+        MESSAGE="A new pull request has been opened or updated: $PR_URL"
+        echo "Sending message to the PR..."
+        echo "$MESSAGE"
