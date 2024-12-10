@@ -14,4 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3      
+
+      - name: Run action
+        uses: OSrivalli/Legal_check/main@main
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
