@@ -6,6 +6,8 @@ on:
       - reopened
       - synchronize
 
+  workflow_dispatch:
+
 jobs:
   code_checkout:
     name: stage1
