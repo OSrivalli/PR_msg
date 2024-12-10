@@ -18,6 +18,6 @@ jobs:
           token: ${{ secrets.PAT_TOKEN }}
 
       - name: Run action
-        uses: https://github.com/OSrivalli/Legal_check@main
+        uses: https://github.com/OSrivalli/Legal_check/main@main
         with:
           token: ${{ secrets.PAT_TOKEN }}
