@@ -15,8 +15,3 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-
-      - name: Run action
-        uses: github.com/OSrivalli/Legal_check/main@main
-        with:
-          token: ${{ secrets.PAT_TOKEN }}
