@@ -7,16 +7,17 @@ on:
       - synchronize
 
 jobs:
-  name: stage1
-  runs-on: ubuntu-latest
-  steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-        token: ${{ secrets.PAT_TOKEN }}
+  code_checkout:
+    name: stage1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN }}
 
-    - name: Run action
-      uses: https://github.com/OSrivalli/Legal_check@main
-      with:
-        token: ${{ secrets.PAT_TOKEN }}
+      - name: Run action
+        uses: https://github.com/OSrivalli/Legal_check@main
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
