@@ -1,6 +1,7 @@
 import os
 import sys
 from github import Github
+import json
 
 # List of prohibited words
 PROHIBITED_WORDS = ['badword1', 'badword2', 'example']
