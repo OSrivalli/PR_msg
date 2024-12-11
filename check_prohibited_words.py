@@ -20,17 +20,17 @@ repo = g.get_repo(repo_name)
 # Get the pull request details
 pr = repo.get_pull(pr_number)
 
-# Get the PR description and title
-pr_title = pr.title
-pr_body = pr.body
+# Now let's check the content of the changed files in the PR
+files = pr.get_files()  # This retrieves all the files changed in the PR
 
-# Combine the title and body for word checking
-pr_content = pr_title + ' ' + pr_body
+for file in files:
+    file_name = file.filename
+    file_patch = file.patch  # The patch is the diff of the changes made to the file
+    
+    # Check for prohibited words in the diff (code changes)
+    for word in PROHIBITED_WORDS:
+        if word.lower() in file_patch.lower():
+            print(f"Prohibited word '{word}' found in file {file_name} diff.")
+            sys.exit(1)
 
-# Check if prohibited words are present
-for word in PROHIBITED_WORDS:
-    if word.lower() in pr_content.lower():
-        print(f"Prohibited word found: {word}")
-        sys.exit(1)
-
-print("No prohibited words found.")
+print("No prohibited words found in PR description, title, or file contents.")
