@@ -8,8 +8,11 @@ PROHIBITED_WORDS = ['badword1', 'badword2', 'example']
 # Authenticate with GitHub
 g = Github(os.getenv('GITHUB_TOKEN'))
 
-# Get the pull request event data
-pr_number = int(os.getenv('PR_NUMBER'))
+# Read the PR number from the GitHub Actions context
+with open(os.getenv('GITHUB_EVENT_PATH')) as f:
+    event_data = json.load(f)
+
+pr_number = event_data['pull_request']['number']
 repo_name = os.getenv('GITHUB_REPOSITORY')
 repo = g.get_repo(repo_name)
 
