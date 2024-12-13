@@ -1,0 +1,44 @@
+name: Get PR File Content
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  fetch-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get list of files changed in the PR
+        id: files
+        run: |
+          # Fetch the pull request branch and the base branch
+          git fetch origin +refs/pull/${{ github.event.pull_request.number }}/merge
+          
+          # List the files changed in the PR
+          git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} > changed_files.txt
+          
+          # Display the changed files
+          cat changed_files.txt
+
+          # Set the list of files as output for further steps
+          echo "files=$(cat changed_files.txt)" >> $GITHUB_ENV
+
+      - name: Get content of each file changed in the PR
+        run: |
+          echo "Fetching content of the files changed in the PR..."
+
+          # Loop through each file and read its content
+          for FILE in $(cat changed_files.txt); do
+            echo "Getting content for file: $FILE"
+            
+            # Check if file exists in the checked-out repository
+            if [ -f "$FILE" ]; then
+              echo "Content of $FILE:"
+              cat "$FILE"
+            else
+              echo "File $FILE not found."
+            fi
+          done
